@@ -14,7 +14,7 @@ func newSignCmd(opt *options) *cobra.Command {
 		Use:   "sign",
 		Short: "Countersign a received contract",
 		Args:  cobra.NoArgs,
-		RunE: func(cmd *cobra.Command, _ []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			a := &app{opt: opt}
 			return a.withStore(func() error {
 				c, err := a.st.GetContract(id)
@@ -55,7 +55,7 @@ func newSettleCmd(opt *options) *cobra.Command {
 		Use:   "settle",
 		Short: "Settle (repay) an outstanding IOU",
 		Args:  cobra.NoArgs,
-		RunE: func(cmd *cobra.Command, _ []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			a := &app{opt: opt}
 			return a.withStore(func() error {
 				debtor, err := a.signer(c.key, c.passphrase)

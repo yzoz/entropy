@@ -10,12 +10,18 @@ import (
 type Currency string
 
 const (
+	// USD is the US dollar.
 	USD Currency = "USD"
+	// EUR is the euro.
 	EUR Currency = "EUR"
+	// RUR is the Russian ruble.
 	RUR Currency = "RUR"
-	GLD Currency = "GLD" // gold
-	SLV Currency = "SLV" // silver
-	OIL Currency = "OIL" // oil
+	// GLD is gold.
+	GLD Currency = "GLD"
+	// SLV is silver.
+	SLV Currency = "SLV"
+	// OIL is oil.
+	OIL Currency = "OIL"
 )
 
 // currencyInfo describes how a currency is represented on the wire and on

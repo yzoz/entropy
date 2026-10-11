@@ -15,7 +15,7 @@ func newExportCmd(opt *options) *cobra.Command {
 		Use:   "export",
 		Short: "Export the ledger into a portable bundle or a CSV report",
 		Args:  cobra.NoArgs,
-		RunE: func(cmd *cobra.Command, _ []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			a := &app{opt: opt}
 			return a.withStore(func() error {
 				var raw []byte
@@ -67,7 +67,7 @@ func newImportCmd(opt *options) *cobra.Command {
 		Use:   "import <bundle.json>",
 		Short: "Verify and import a bundle into the ledger",
 		Args:  cobra.ExactArgs(1),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			a := &app{opt: opt}
 			raw, err := os.ReadFile(args[0])
 			if err != nil {

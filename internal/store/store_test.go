@@ -12,7 +12,7 @@ func TestContractCRUD(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer st.Close()
+	defer func() { _ = st.Close() }()
 
 	c := &domain.Contract{
 		Version: domain.ContractVersion, ID: "x", Type: domain.IOU,
@@ -42,7 +42,7 @@ func TestAliasResolution(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer st.Close()
+	defer func() { _ = st.Close() }()
 
 	if err := st.SetAlias("alice", "ed25519:xyz"); err != nil {
 		t.Fatal(err)

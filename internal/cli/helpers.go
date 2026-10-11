@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 
 	"github.com/yzoz/entropy/internal/crypto"
-	"github.com/yzoz/entropy/internal/domain"
 )
 
 // publicForLocalKey reads the stored public key from a local key file without
@@ -49,13 +48,4 @@ func (a *app) labelFor(addr string) string {
 		}
 	}
 	return addr
-}
-
-// parseContractType validates a contract type flag value.
-func parseContractType(s string) (domain.Type, error) {
-	t := domain.Type(s)
-	if !t.Valid() {
-		return "", fmt.Errorf("unknown contract type %q (want IOU, TRANSFER or SETTLE)", s)
-	}
-	return t, nil
 }

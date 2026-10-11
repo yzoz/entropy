@@ -15,7 +15,7 @@ func newBalanceCmd(opt *options) *cobra.Command {
 		Use:   "balance",
 		Short: "Show net balances derived from the ledger",
 		Args:  cobra.NoArgs,
-		RunE: func(cmd *cobra.Command, _ []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			a := &app{opt: opt}
 			return a.withStore(func() error {
 				contracts, err := a.st.ListContracts()

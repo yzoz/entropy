@@ -1,3 +1,5 @@
+// Package store provides a bbolt-backed persistence layer for contracts,
+// aliases and public keys.
 package store
 
 import (
@@ -39,7 +41,7 @@ func Open(path string) (*Store, error) {
 	}
 	s := &Store{db: db}
 	if err := s.init(); err != nil {
-		db.Close()
+		_ = db.Close()
 		return nil, err
 	}
 	return s, nil

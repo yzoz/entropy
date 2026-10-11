@@ -16,7 +16,7 @@ func newViewCmd(opt *options) *cobra.Command {
 		Use:   "view [id]",
 		Short: "View contracts and their status",
 		Args:  cobra.MaximumNArgs(1),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			a := &app{opt: opt}
 			return a.withStore(func() error {
 				if len(args) == 1 {

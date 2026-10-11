@@ -1,3 +1,5 @@
+// Package domain defines the ledger's core types: contracts, currencies and
+// their signing and validation rules.
 package domain
 
 import "time"

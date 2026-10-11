@@ -27,7 +27,7 @@ func newKeyGenCmd(opt *options) *cobra.Command {
 		Use:   "gen",
 		Short: "Generate a passphrase-protected Ed25519 key",
 		Args:  cobra.NoArgs,
-		RunE: func(cmd *cobra.Command, _ []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			var err error
 			if passphrase == "" && !opt.JSON {
 				passphrase, err = promptPassphrase(true)

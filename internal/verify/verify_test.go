@@ -16,7 +16,7 @@ func TestVerifyDetectsTamper(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer st.Close()
+	defer func() { _ = st.Close() }()
 
 	pub, priv, _ := crypto.GenerateKey()
 	pubHex := crypto.EncodePublic(pub)

@@ -1,3 +1,5 @@
+// Package crypto provides Ed25519 signing, address derivation and key
+// (de)serialization primitives.
 package crypto
 
 import "encoding/base64"

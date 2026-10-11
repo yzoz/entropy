@@ -23,7 +23,7 @@ func newIDSetCmd(opt *options) *cobra.Command {
 		Use:   "set",
 		Short: "Associate an alias with an address",
 		Args:  cobra.NoArgs,
-		RunE: func(cmd *cobra.Command, _ []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			a := &app{opt: opt}
 			return a.withStore(func() error {
 				addr := address
@@ -64,7 +64,7 @@ func newIDListCmd(opt *options) *cobra.Command {
 		Use:   "list",
 		Short: "List known aliases",
 		Args:  cobra.NoArgs,
-		RunE: func(cmd *cobra.Command, _ []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			a := &app{opt: opt}
 			return a.withStore(func() error {
 				aliases, err := a.st.ListAliases()

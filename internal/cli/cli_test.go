@@ -34,7 +34,7 @@ func withStore(t *testing.T, home string, fn func(*store.Store)) {
 	if err != nil {
 		t.Fatalf("cannot open store: %v", err)
 	}
-	defer st.Close()
+	defer func() { _ = st.Close() }()
 	fn(st)
 }
 

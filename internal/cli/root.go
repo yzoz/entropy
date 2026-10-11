@@ -27,9 +27,6 @@ type app struct {
 	keys string
 }
 
-// active is set by withStore so nested helpers can reach the open store.
-var active *app
-
 func (a *app) keysDir() string { return filepath.Join(a.opt.Home, "keys") }
 func (a *app) dbPath() string  { return filepath.Join(a.opt.Home, "ledger.db") }
 
@@ -88,10 +85,9 @@ func (a *app) withStore(fn func() error) error {
 	if err != nil {
 		return err
 	}
-	defer st.Close()
+	defer func() { _ = st.Close() }()
 	a.st = st
 	a.keys = a.keysDir()
-	active = a
 	return fn()
 }
 

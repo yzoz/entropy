@@ -1,4 +1,4 @@
-// Package sign.glues the crypto primitives to the ledger: it loads a
+// Package sign glues the crypto primitives to the ledger: it loads a
 // passphrase-protected key from disk and applies/receives signatures on
 // contracts, promoting their lifecycle status as counterparts sign.
 package sign

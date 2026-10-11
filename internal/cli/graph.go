@@ -15,7 +15,7 @@ func newGraphCmd(opt *options) *cobra.Command {
 		Use:   "graph",
 		Short: "Render the debt graph as Mermaid or DOT",
 		Args:  cobra.NoArgs,
-		RunE: func(cmd *cobra.Command, _ []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			a := &app{opt: opt}
 			return a.withStore(func() error {
 				contracts, err := a.st.ListContracts()

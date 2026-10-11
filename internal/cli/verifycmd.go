@@ -13,7 +13,7 @@ func newVerifyCmd(opt *options) *cobra.Command {
 		Use:   "verify",
 		Short: "Audit the ledger: signatures, statuses, references, balances",
 		Args:  cobra.NoArgs,
-		RunE: func(cmd *cobra.Command, _ []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			a := &app{opt: opt}
 			return a.withStore(func() error {
 				rep, err := verify.Ledger(a.st)

@@ -35,7 +35,7 @@ func newCreateCmd(opt *options, t domain.Type, use, short string) *cobra.Command
 		Use:   use,
 		Short: short,
 		Args:  cobra.NoArgs,
-		RunE: func(cmd *cobra.Command, _ []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			p.Type = t
 			p.Expires = dur.duration()
 			a := &app{opt: opt}

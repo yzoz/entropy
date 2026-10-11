@@ -24,10 +24,6 @@ func EncodeCSV(contracts []*domain.Contract) ([]byte, error) {
 		return nil, err
 	}
 	for _, c := range contracts {
-		signers := make([]string, 0, len(c.Signatures))
-		for _, s := range c.Signatures {
-			signers = append(signers, s.Signer)
-		}
 		row := []string{
 			c.ID,
 			string(c.Type),
