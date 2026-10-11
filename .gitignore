@@ -1,0 +1,15 @@
+# Build output
+/bin/
+*.exe
+
+# Demo / runtime data
+.demo/
+*.entropy/
+*.bundle.json
+
+# Local tooling artifacts
+.semantic-search/
+
+# Editor / OS
+.DS_Store
+*.swp
