@@ -1,0 +1,63 @@
+# GoReleaser configuration for Entropy Money.
+# Builds static Linux/macOS/Windows binaries and publishes a GitHub release
+# when a v* tag is pushed.
+version: 2
+
+project_name: entropy
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: entropy
+    main: ./cmd/entropy
+    binary: entropy
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+      - -X github.com/yzoz/entropy/internal/cli.version={{.Version}}
+      - -X github.com/yzoz/entropy/internal/cli.commit={{.Commit}}
+      - -X github.com/yzoz/entropy/internal/cli.date={{.Date}}
+
+archives:
+  - id: default
+    formats: [tar.gz]
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+
+checksum:
+  name_template: "checksums.txt"
+
+snapshot:
+  version_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+      - Merge pull request
+      - Merge branch
+
+release:
+  github:
+    owner: yzoz
+    name: entropy
+  draft: false
+  prerelease: auto
+  name_template: "v{{ .Version }}"

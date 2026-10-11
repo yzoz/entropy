@@ -1,17 +1,26 @@
-BINARY := entropy
-PKG := ./cmd/entropy
-GO ?= go
+BINARY  := entropy
+PKG     := ./cmd/entropy
+GO      ?= go
 DEMO_HOME ?= $(CURDIR)/.demo
 
-.PHONY: build test test-race lint fmt vet tidy demo clean run
+# Version metadata embedded into the binary (see internal/cli/version.go).
+VERSION ?= $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)
+COMMIT  ?= $(shell git rev-parse --short HEAD 2>/dev/null || echo none)
+DATE    ?= $(shell date -u +%Y-%m-%dT%H:%M:%SZ)
+LDFLAGS := -s -w \
+	-X github.com/yzoz/entropy/internal/cli.version=$(VERSION) \
+	-X github.com/yzoz/entropy/internal/cli.commit=$(COMMIT) \
+	-X github.com/yzoz/entropy/internal/cli.date=$(DATE)
 
-## build: compile the CLI into ./bin/entropy
+.PHONY: build install test test-race lint fmt vet tidy demo run snapshot clean
+
+## build: compile the CLI into ./bin/entropy with version metadata
 build:
-	$(GO) build -o bin/$(BINARY) $(PKG)
+	$(GO) build -ldflags "$(LDFLAGS)" -o bin/$(BINARY) $(PKG)
 
 ## install: install the CLI into GOPATH/bin
 install:
-	$(GO) install $(PKG)
+	$(GO) install -ldflags "$(LDFLAGS)" $(PKG)
 
 ## test: run the full test suite
 test:
@@ -29,7 +38,7 @@ vet:
 fmt:
 	gofmt -w ./cmd ./internal
 
-## lint: run gofmt check and vet
+## lint: run gofmt and vet
 lint: fmt vet
 
 ## tidy: sync go.mod/go.sum
@@ -42,8 +51,12 @@ demo:
 
 ## run: build and run the CLI (ARGS="..." make run)
 run:
-	$(GO) run $(PKG) $(ARGS)
+	$(GO) run -ldflags "$(LDFLAGS)" $(PKG) $(ARGS)
+
+## snapshot: build release artifacts locally with GoReleaser (no publish)
+snapshot:
+	goreleaser release --snapshot --clean
 
 ## clean: remove build output and demo data
 clean:
-	rm -rf bin $(DEMO_HOME)
+	rm -rf bin dist $(DEMO_HOME)

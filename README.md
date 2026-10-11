@@ -44,12 +44,24 @@ single source of truth.
 
 ## Install
 
+### Prebuilt binaries
+
+Grab the archive for your OS/arch from the
+[releases page](https://github.com/yzoz/entropy/releases), unpack and move
+`entropy` onto your `PATH`. See [INSTALL.md](./INSTALL.md) for details.
+
+### With Go
+
+```bash
+go install github.com/yzoz/entropy/cmd/entropy@v1.0.0
+```
+
+### From source
+
 ```bash
 git clone https://github.com/yzoz/entropy
 cd entropy
 make build          # -> ./bin/entropy
-# or
-go install ./cmd/entropy
 ```
 
 Requires Go 1.18+.
@@ -128,6 +140,7 @@ the risk is taken by whoever signs.
 | `graph [-f mermaid\|dot]` | Render the debt graph |
 | `export -o FILE [-f json\|csv]` | Export a verifiable bundle (json) or a report (csv) |
 | `import FILE` | Verify and import a bundle |
+| `version` | Print build version information |
 
 Global flags: `--home DIR`, `--json`.
 
@@ -149,13 +162,30 @@ internal/cli/         cobra command tree
 ## Development
 
 ```bash
-make test    # go test ./...
-make lint    # gofmt + go vet
-make demo    # end-to-end scenario in a temp dir
+make test        # go test ./...
+make test-race   # go test -race ./...
+make lint        # gofmt + go vet
+make demo        # end-to-end scenario in a temp dir
+make snapshot    # build release artifacts locally (GoReleaser)
 ```
 
-CI runs formatting, vet, tests and build on every push
-(see `.github/workflows/ci.yml`).
+CI runs formatting, vet, tests and build on every push, plus `golangci-lint`
+(see `.github/workflows/ci.yml`). Pushing a `v*` tag triggers the release
+workflow, which builds cross-platform binaries with GoReleaser and publishes
+them together with `checksums.txt` (see `.github/workflows/release.yml`).
+
+## Releasing
+
+Maintainers publish a new version by tagging:
+
+```bash
+git tag -a v1.0.0 -m "Entropy Money v1.0.0"
+git push origin v1.0.0
+```
+
+The tag starts `.github/workflows/release.yml`, which cross-compiles for
+Linux/macOS/Windows (amd64/arm64), embeds version metadata, and creates the
+GitHub release. See [CHANGELOG.md](./CHANGELOG.md) for the version history.
 
 ## Проект по-русски
 

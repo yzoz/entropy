@@ -37,8 +37,9 @@ func (a *app) dbPath() string  { return filepath.Join(a.opt.Home, "ledger.db") }
 func NewRootCmd() *cobra.Command {
 	opt := &options{}
 	root := &cobra.Command{
-		Use:   "entropy",
-		Short: "Entropy Money — signed mutual-credit contracts",
+		Use:     "entropy",
+		Version: fmt.Sprintf("%s (commit %s, built %s)", version, commit, date),
+		Short:   "Entropy Money — signed mutual-credit contracts",
 		Long: "Entropy Money is a CLI for partner mutual credit (IOU) built on\n" +
 			"signed contracts. Participants issue, countersign and settle\n" +
 			"obligations, exchanging them as portable signed bundles.",
@@ -62,6 +63,7 @@ func NewRootCmd() *cobra.Command {
 		newGraphCmd(opt),
 		newExportCmd(opt),
 		newImportCmd(opt),
+		newVersionCmd(opt),
 	)
 	return root
 }
