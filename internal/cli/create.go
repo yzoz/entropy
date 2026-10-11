@@ -66,7 +66,7 @@ func newCreateCmd(opt *options, t domain.Type, use, short string) *cobra.Command
 	cmd.Flags().Int64VarP(&dur.days, "days", "d", 0, "expiration in days")
 	cmd.Flags().Int64VarP(&dur.hours, "hours", "o", 0, "expiration in hours")
 	cmd.Flags().Int64VarP(&dur.minutes, "minutes", "m", 0, "expiration in minutes")
-	cmd.MarkFlagRequired("to")
-	cmd.MarkFlagRequired("amount")
+	_ = cmd.MarkFlagRequired("to")
+	_ = cmd.MarkFlagRequired("amount")
 	return cmd
 }

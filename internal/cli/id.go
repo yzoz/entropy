@@ -55,7 +55,7 @@ func newIDSetCmd(opt *options) *cobra.Command {
 	cmd.Flags().StringVar(&name, "name", "", "alias name (required)")
 	cmd.Flags().StringVar(&address, "address", "", "address to bind to the alias")
 	cmd.Flags().StringVar(&key, "key", "", "local key name whose address to bind")
-	cmd.MarkFlagRequired("name")
+	_ = cmd.MarkFlagRequired("name")
 	return cmd
 }
 

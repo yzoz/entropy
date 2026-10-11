@@ -43,7 +43,7 @@ func newSignCmd(opt *options) *cobra.Command {
 	cmd.Flags().StringVarP(&id, "id", "i", "", "contract ID (required)")
 	cmd.Flags().StringVarP(&keyName, "key", "k", "key", "local key name to sign with")
 	cmd.Flags().StringVar(&passphrase, "passphrase", "", "key passphrase (omit to be prompted)")
-	cmd.MarkFlagRequired("id")
+	_ = cmd.MarkFlagRequired("id")
 	return cmd
 }
 
@@ -108,6 +108,6 @@ func newSettleCmd(opt *options) *cobra.Command {
 	cmd.Flags().StringVarP(&c.amount, "amount", "a", "", "amount to settle (defaults to the full IOU)")
 	cmd.Flags().StringVarP(&c.currency, "currency", "c", "", "currency (defaults to the IOU currency)")
 	cmd.Flags().StringVar(&c.memo, "memo", "", "optional note")
-	cmd.MarkFlagRequired("iou")
+	_ = cmd.MarkFlagRequired("iou")
 	return cmd
 }

@@ -10,39 +10,55 @@ import (
 )
 
 func newExportCmd(opt *options) *cobra.Command {
-	var out string
+	var out, format string
 	cmd := &cobra.Command{
 		Use:   "export",
-		Short: "Export the ledger into a portable bundle",
+		Short: "Export the ledger into a portable bundle or a CSV report",
 		Args:  cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			a := &app{opt: opt}
 			return a.withStore(func() error {
-				b, err := bundle.Export(a.st)
-				if err != nil {
-					return err
-				}
-				raw, err := b.Encode()
-				if err != nil {
-					return err
+				var raw []byte
+				var count int
+				switch format {
+				case "json", "bundle":
+					b, err := bundle.Export(a.st)
+					if err != nil {
+						return err
+					}
+					raw, err = b.Encode()
+					if err != nil {
+						return err
+					}
+					count = len(b.Contracts)
+				case "csv":
+					contracts, err := a.st.ListContracts()
+					if err != nil {
+						return err
+					}
+					raw, err = bundle.EncodeCSV(contracts)
+					if err != nil {
+						return err
+					}
+					count = len(contracts)
+				default:
+					return fmt.Errorf("unknown export format %q (want json or csv)", format)
 				}
 				target := out
 				if target == "" || target == "-" {
-					_, err = os.Stdout.Write(raw)
-					if err == nil {
-						fmt.Println()
-					}
+					_, err := os.Stdout.Write(raw)
 					return err
 				}
 				if err := os.WriteFile(target, raw, 0o600); err != nil {
 					return err
 				}
-				fmt.Printf("Exported %d contract(s) to %s\n", len(b.Contracts), target)
+				fmt.Printf("Exported %d contract(s) to %s\n", count, target)
 				return nil
 			})
 		},
 	}
 	cmd.Flags().StringVarP(&out, "out", "o", "-", "output file (default stdout)")
+	cmd.Flags().StringVarP(&format, "format", "f", "json", "output format {json|csv}")
 	return cmd
 }
 

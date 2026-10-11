@@ -1,5 +1,9 @@
 # Entropy Money
 
+[![CI](https://github.com/yzoz/entropy/actions/workflows/ci.yml/badge.svg)](https://github.com/yzoz/entropy/actions/workflows/ci.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/yzoz/entropy)](https://goreportcard.com/report/github.com/yzoz/entropy)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 **Signed mutual-credit contracts from the command line.**
 
 Entropy Money is a small, self-contained Go CLI for **partner mutual credit**.
@@ -80,6 +84,9 @@ entropy sign --id <SETTLE_ID> --key bob --passphrase secret
 # 6. move the ledger elsewhere
 entropy export -o ledger.bundle.json
 entropy --home /path/to/peer import ledger.bundle.json
+
+# 7. produce a human-readable report
+entropy export -f csv -o ledger.csv
 ```
 
 Run the whole story at once:
@@ -119,7 +126,8 @@ the risk is taken by whoever signs.
 | `balance` | Show computed net balances |
 | `verify` | Audit the ledger |
 | `graph [-f mermaid\|dot]` | Render the debt graph |
-| `export -o FILE` / `import FILE` | Exchange bundles |
+| `export -o FILE [-f json\|csv]` | Export a verifiable bundle (json) or a report (csv) |
+| `import FILE` | Verify and import a bundle |
 
 Global flags: `--home DIR`, `--json`.
 
@@ -162,5 +170,3 @@ CI runs formatting, vet, tests and build on every push
 минорные единицы, контракт вступает в силу только после подписи обеих сторон.
 `entropy verify` независимо проверяет все подписи, статусы и ссылки и
 подтверждает, что балансы сходятся в ноль.
-
-Полный текст технического задания: **[SPEC.md](./SPEC.md)**.

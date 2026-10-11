@@ -3,7 +3,7 @@ PKG := ./cmd/entropy
 GO ?= go
 DEMO_HOME ?= $(CURDIR)/.demo
 
-.PHONY: build test lint fmt vet tidy demo clean run
+.PHONY: build test test-race lint fmt vet tidy demo clean run
 
 ## build: compile the CLI into ./bin/entropy
 build:
@@ -16,6 +16,10 @@ install:
 ## test: run the full test suite
 test:
 	$(GO) test ./...
+
+## test-race: run the test suite under the race detector
+test-race:
+	$(GO) test -race ./...
 
 ## vet: run go vet
 vet:
